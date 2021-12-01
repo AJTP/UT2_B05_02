@@ -18,12 +18,7 @@ public class MenuPrincipal extends ScreenAdapter {
     public MenuPrincipal(ManejadorPantallas game){
         this.game=game;
         stage = new Stage(new ScreenViewport());
-        //Título
-        Label title = new Label("OreDefense2",game.gameSkin,"default");
-        title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight() * 1 / 3);
-        title.setWidth(Gdx.graphics.getWidth());
-        stage.addActor(title);
+
         //Botón Fácil
         TextButton playButton = new TextButton("Facil", game.gameSkin);
         playButton.setWidth(Gdx.graphics.getWidth() / 2);

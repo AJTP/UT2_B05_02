@@ -3,6 +3,7 @@ package es.iesoretania;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,7 +23,8 @@ public class OreDefense extends ScreenAdapter {
     Stage stage;
     OrthographicCamera camera;
     Nave nave;
-    Meteorito meteoritos[];
+    public static Meteorito meteoritos[];
+
 
     public OreDefense(ManejadorPantallas game) {
         this.dificultad=ManejadorPantallas.dificultad;
@@ -31,7 +33,7 @@ public class OreDefense extends ScreenAdapter {
         nave = new Nave();
         stage.addActor(nave);
 
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
         stage.setKeyboardFocus(nave);
         // Preparar la cámara
         camera = new OrthographicCamera();
@@ -40,10 +42,13 @@ public class OreDefense extends ScreenAdapter {
         Viewport viewport = new ScreenViewport(camera);
         stage.setViewport(viewport);
         meteoritos = new Meteorito[10*dificultad];
-        for(Meteorito m :meteoritos){
-            m = new Meteorito();
-            stage.addActor(m);
+        for(int i=0;i<meteoritos.length;i++){
+            meteoritos[i] = new Meteorito();
+            stage.addActor(meteoritos[i]);
         }
+
+        Actor score = new Manager(nave,game);
+        stage.addActor(score);
     }
 
     @Override

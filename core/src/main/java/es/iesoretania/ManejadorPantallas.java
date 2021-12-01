@@ -18,7 +18,7 @@ public class ManejadorPantallas extends Game {
         font = new BitmapFont();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        gameSkin = new Skin(Gdx.files.internal("glassy/skin/glassy-ui.json"));
+        gameSkin = new Skin(Gdx.files.internal("freezing/skin/freezing-ui.json"));
 
         setScreen(new MenuPrincipal(this));
     }
