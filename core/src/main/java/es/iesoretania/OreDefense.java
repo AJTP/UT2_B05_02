@@ -20,7 +20,7 @@ public class OreDefense extends ScreenAdapter {
     Nave.VerticalMovement verticalMovement;
     private final ManejadorPantallas game;
     private int dificultad;
-    Stage stage;
+    static Stage stage;
     OrthographicCamera camera;
     Nave nave;
     public static Meteorito meteoritos[];
@@ -71,5 +71,9 @@ public class OreDefense extends ScreenAdapter {
     @Override
     public void hide(){
         Gdx.input.setInputProcessor(null);
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 }

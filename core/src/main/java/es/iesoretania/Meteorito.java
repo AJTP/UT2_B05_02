@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import java.util.Random;
@@ -29,9 +27,10 @@ public class Meteorito extends Actor {
     boolean muerto=false;
     private static TextureRegion[] explosiontexture = new TextureRegion[8];
     private static Animation<TextureRegion> explosion;
-
+    private Stage stage;
 
     public Meteorito(){
+        stage = OreDefense.getStage();
         dificultad=ManejadorPantallas.dificultad;
         Texture completo = new Texture(Gdx.files.internal("spacetheme.png"));
         if(meteorito==null){
@@ -60,18 +59,6 @@ public class Meteorito extends Actor {
         setOrigin(this.getWidth() / 2, this.getHeight() / 2);
         setPosition(rnd.nextInt(640), rnd.nextInt(750)+500);
         setTouchable(Touchable.enabled);
-        addListener(new InputListener(){
-
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                die();
-                return false;
-            }
-            @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                die();
-            }
-        });
     }
 
     @Override
@@ -81,7 +68,16 @@ public class Meteorito extends Actor {
 
     @Override
     public void act(float delta) {
+        if(Gdx.input.isTouched()){
+            Vector3 posicion = new Vector3();
+            posicion.set(Gdx.input.getX(),Gdx.input.getY(),0);
+            stage.getCamera().unproject(posicion);
+            if(getShape().contains(posicion.x,posicion.y)){
+                die();
+            }
+        }
         if(!muerto){
+            stateTime=0;
             this.moveBy(0,descenso*delta);
             this.rotateBy(rotacion*delta);
             if(getY()<0-getHeight()){
@@ -108,6 +104,7 @@ public class Meteorito extends Actor {
     }
 
     private void die() {
+        deathmoment=Gdx.graphics.getDeltaTime();
         muerto=true;
         killer=false;
     }
